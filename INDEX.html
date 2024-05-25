@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Story Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #game-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+        #story {
+            margin-bottom: 20px;
+        }
+        .choice {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .choice:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="story"></div>
+    </div>
+    <script>
+        const storyElement = document.getElementById('story');
+
+        const story = {
+            start: {
+                text: "You find yourself in a dark forest. The trees tower above you, and the path ahead is unclear. You can go left or right.",
+                choices: {
+                    left: "Go left",
+                    right: "Go right"
+                }
+            },
+            left: {
+                text: "You head left and find a clearing with a small pond. You see something shiny in the water.",
+                choices: {
+                    investigate: "Investigate the pond",
+                    back: "Go back"
+                }
+            },
+            right: {
+                text: "You head right and the forest becomes denser. You hear a growl in the distance.",
+                choices: {
+                    run: "Run away",
+                    hide: "Hide behind a tree"
+                }
+            },
+            investigate: {
+                text: "You find a beautiful, ancient sword in the pond. As you pick it up, you feel a surge of power.",
+                choices: {
+                    back: "Go back to the clearing"
+                }
+            },
+            back: {
+                text: "You return to where you started. You can go left or right.",
+                choices: {
+                    left: "Go left",
+                    right: "Go right"
+                }
+            },
+            run: {
+                text: "You run as fast as you can, but the growl gets closer. Suddenly, you trip and fall.",
+                choices: {
+                    hide: "Hide behind a bush",
+                    fight: "Stand and fight"
+                }
+            },
+            hide: {
+                text: "You hide behind a tree and hold your breath. The growling gets louder, then slowly fades away.",
+                choices: {
+                    back: "Go back to where you started"
+                }
+            },
+            fight: {
+                text: "You stand your ground and prepare to fight. The growling creature appears, but with your courage, you manage to scare it away.",
+                choices: {
+                    back: "Go back to where you started"
+                }
+            }
+        };
+
+        function renderScene(scene) {
+            storyElement.innerHTML = `<p>${scene.text}</p>`;
+            for (let choice in scene.choices) {
+                const button = document.createElement('button');
+                button.className = 'choice';
+                button.textContent = scene.choices[choice];
+                button.onclick = () => renderScene(story[choice]);
+                storyElement.appendChild(button);
+            }
+        }
+
+        renderScene(story.start);
+    </script>
+</body>
+</html>
